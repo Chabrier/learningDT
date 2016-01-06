@@ -14,3 +14,5 @@ The compute function :
 * The **varA** variable is initialized by the port paramater **init_value_varA**
 * The **time_step** port parameter is also used.
 * The **varA** is observed using the **varA** observation port.
+
+### Use case O1: meteoSolo.vpz
