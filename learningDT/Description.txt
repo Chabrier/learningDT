@@ -1,0 +1,12 @@
+Package: learningDT
+Version: 0.1.0
+Depends: vle.output, vle.discrete-time.generic
+Build-Depends:  vle.tester,  vle.reader, vle.discrete-time
+Conflicts:
+Maintainer: Patrick Chabrier <patrick.chabrier@toulouse.inra.fr>
+Description: a package to learn vle.discrete-time
+ .
+Tags: learning discrete-time
+Url: http://www.vle-project.org/1.3
+Size: 0
+MD5sum: xxxx
