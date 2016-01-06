@@ -1,2 +1,1 @@
-install(FILES file.doc DESTINATION doc)
-
+install(DIRECTORY . DESTINATION doc FILES_MATCHING PATTERN "*.md")
