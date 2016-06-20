@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<vle_project version="1.0" author="Patrick Chabrier" date="mercredi 6 janvier 2016 02:00">
+<vle_project author="Patrick Chabrier" version="1.0" date="mercredi 6 janvier 2016 02:00">
  <structures>
-    <model width="1504" x="0" y="0" height="501" type="coupled" name="model1">
+    <model height="501" width="1504" x="0" y="0" name="model1" type="coupled">
       <submodels>
-	<model width="50" x="106" y="123" dynamics="dyn00" conditions="cond_time_step,cond_init" height="50" observables="obsModel00" type="atomic" name="model00">
-	</model>
-      </submodels>
+	<model height="50" observables="obsModel00" width="50" x="98" y="93" dynamics="dyn00" name="model00" conditions="cond_time_step,cond_init" type="atomic">
+	<out>
+      <port name="varA"/>
+     </out>
     </model>
+      <model height="50" observables="obsModel00" width="50" x="237" y="103" dynamics="dyn01" name="model01" conditions="cond_time_step,cond_init,cond_sync" type="atomic">
+     <in>
+      <port name="varE"/>
+     </in>
+     <out/>
+    </model>
+   </submodels>
+    <connections>
+    <connection type="internal">
+     <origin port="varA" model="model00"/>
+     <destination port="varE" model="model01"/>
+    </connection>
+   </connections>
+  </model>
   </structures>
  <dynamics>
-    <dynamic package="learningDT" name="dyn00" library="model00"/>
-  </dynamics>
- <experiment duration="100" begin="0.00000" name="learningDT" combination="linear">
+    <dynamic library="model00" name="dyn00" package="learningDT"/>
+  <dynamic library="model01" name="dyn01" package="learningDT"/>
+ </dynamics>
+ <experiment duration="100" name="learningDT" begin="0.00000" combination="linear">
     <conditions>
+      <condition name="cond_sync">
+	<port name="syncs">
+	  <set>
+      <string>varE</string>
+     </set>
+	</port>
+      </condition>
       <condition name="simulation_engine">
 	<port name="begin">
 	  <double>0.0</double>
@@ -34,11 +57,11 @@
   </conditions>
     <views>
       <outputs>
-	<output package="vle.output" plugin="file" format="local" location="" name="fileView"/>
-	<output package="vle.output" plugin="console" format="local" location="" name="consoleView"/>
+	<output location="" name="fileView" format="local" plugin="file" package="vle.output"/>
+	<output location="" name="consoleView" format="local" plugin="console" package="vle.output"/>
       </outputs>
-      <view output="fileView" type="timed" timestep="1" name="fileView"/>
-      <view output="consoleView" type="timed" timestep="1" name="consoleView"/>
+      <view timestep="1" output="fileView" name="fileView" type="timed"/>
+      <view timestep="1" output="consoleView" name="consoleView" type="timed"/>
     <observables>
     <observable name="obsModel00">
      <port name="varA">

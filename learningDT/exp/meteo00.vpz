@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<vle_project version="1.0" author="Patrick Chabrier" date="mercredi 6 janvier 2016 02:00">
+ <structures>
+    <model name="model1" height="501" width="1504" type="coupled" x="0" y="0">
+   <submodels>
+<model name="meteo2CV" height="105" conditions="condMeteo" width="100" dynamics="dynMeteo" type="atomic" x="53" observables="vueMeteo" y="175">
+     <out>
+      <port name="ETP"/>
+      <port name="Rad"/>
+      <port name="Rain"/>
+      <port name="Tmax"/>
+      <port name="Tmin"/>
+     </out>
+    </model>
+   </submodels>
+   <connections/>
+  </model>
+  </structures>
+ <dynamics>
+<dynamic name="dynMeteo" library="GenericWithHeader" package="meteo"/>
+ </dynamics>
+ <experiment name="learningDT" duration="100" begin="2447163" combination="linear">
+    <conditions>
+<condition name="condMeteo">
+ <port name="PkgName">
+<string>2CVdt</string>
+</port>
+ <port name="begin">
+<integer>2</integer>
+</port>
+ <port name="column_separator">
+     <string> </string>
+</port>
+ <port name="columns">
+<map>
+      <key name="ETP">
+       <string>ETP</string>
+      </key>
+      <key name="Rad">
+       <string>Rad</string>
+      </key>
+      <key name="Rain">
+       <string>Rain</string>
+      </key>
+      <key name="Tmax">
+       <string>Tmax</string>
+      </key>
+      <key name="Tmin">
+       <string>Tmin</string>
+      </key>
+     </map>
+</port>
+ <port name="day_column">
+<integer>0</integer>
+</port>
+ <port name="meteo_file">
+<string>MAGNABRI.txt</string>
+</port>
+ <port name="month_column">
+<integer>1</integer>
+</port>
+ <port name="time-step">
+<double>1.000000000000000</double>
+</port>
+ <port name="variables">
+<set>
+      <set>
+       <string>ETP</string>
+       <double>0.000000000000000</double>
+      </set>
+      <set>
+       <string>Tmax</string>
+       <double>0.000000000000000</double>
+      </set>
+      <set>
+       <string>Tmin</string>
+       <double>0.000000000000000</double>
+      </set>
+      <set>
+       <string>Rain</string>
+       <double>0.000000000000000</double>
+      </set>
+      <set>
+       <string>Rad</string>
+       <double>0.000000000000000</double>
+      </set>
+     </set>
+</port>
+ <port name="year_column">
+<integer>2</integer>
+</port>
+</condition>
+
+      <condition name="simulation_engine">
+	<port name="begin">
+	  <double>2447163</double>
+	</port>
+	<port name="duration">
+	  <double>350.</double>
+	  </port>"
+      </condition>
+
+
+  </conditions>
+    <views>
+      <outputs>
+	<output name="vueMeteo" location="" format="local" plugin="file" package="vle.output">
+	  <map>
+	    <key name="flush-by-bag">
+	      <boolean>false</boolean>
+	    </key>
+	    <key name="julian-day">
+	      <boolean>true</boolean>
+	    </key>
+	    <key name="locale">
+	      <string>C</string>
+	    </key>
+	    <key name="type">
+	      <string>csv</string>
+	    </key>
+	  </map>
+	</output>
+	<output name="fileView" location="" format="local" plugin="file" package="vle.output"/>
+	<output name="consoleView" location="" format="local" plugin="console" package="vle.output"/>
+      </outputs>
+      <view name="fileView" output="fileView" timestep="1" type="timed"/>
+      <view name="consoleView" output="consoleView" timestep="1" type="timed"/>
+      <observables>
+	<observable name="obsModel00">
+	  <port name="varA">
+	    <attachedview name="fileView"/>
+	    <attachedview name="consoleView"/>
+	  </port>
+	</observable>
+	<observable name="vueMeteo">
+	  <port name="ETP">
+	    <attachedview name="vueMeteo"/>
+	  </port>
+
+	  <port name="Rad">
+	    <attachedview name="vueMeteo"/>
+	  </port>
+
+	  <port name="Rain">
+	    <attachedview name="vueMeteo"/>
+	  </port>
+
+	  <port name="Tmax">
+	    <attachedview name="vueMeteo"/>
+	  </port>
+
+	  <port name="Tmin">
+	    <attachedview name="vueMeteo"/>
+	  </port>
+
+	</observable>
+      </observables>
+
+      <view name="vueMeteo" output="vueMeteo" timestep="1.000000000000000" type="timed"/>
+
+    </views>
+  </experiment>
+</vle_project>

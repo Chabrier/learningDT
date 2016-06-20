@@ -34,29 +34,31 @@ namespace vle {
 namespace discrete_time {
 namespace learningDT {
 
-class model00 : public DiscreteTimeDyn
+class modelO1 : public DiscreteTimeDyn
 {
 public:
-    model00(const vle::devs::DynamicsInit& init,
+    modelO1(const vle::devs::DynamicsInit& init,
             const vle::devs::InitEventList& events)
         : DiscreteTimeDyn(init, events)
     {
         varA.init(this, "varA", events);
+        varE.init(this, "varE", events);
     }
 
-    virtual ~model00()
+    virtual ~modelO1()
     {
     }
 
     void compute(const vle::devs::Time& t)
     {
-        varA = varA(-1) + 1;
+        varA = varA(-1) + 1 + varE();
     }
 
     Var varA;
+    Var varE;
 };
 
 }}}
 
 
-DECLARE_DYNAMICS_DBG(vle::discrete_time::learningDT::model00)
+DECLARE_DYNAMICS_DBG(vle::discrete_time::learningDT::modelO1)

@@ -34,29 +34,81 @@ namespace vle {
 namespace discrete_time {
 namespace learningDT {
 
-class model00 : public DiscreteTimeDyn
+class wwdmDt : public DiscreteTimeDyn
 {
 public:
-    model00(const vle::devs::DynamicsInit& init,
+    wwdmDt(const vle::devs::DynamicsInit& init,
             const vle::devs::InitEventList& events)
         : DiscreteTimeDyn(init, events)
     {
-        varA.init(this, "varA", events);
+        Eb.init(this, "Eb", events);
+        Eimax.init(this, "Eimax", events);
+        K.init(this, "K", events);
+        Lmax.init(this, "Lmax", events);
+        A.init(this, "A", events);
+        B.init(this, "B", events);
+        TI.init(this, "TI", events);
+
+        PAR.init(this, "PAR", events);
+        Tmean.init(this, "Tmean", events);
+        Tr.init(this, "Tr", events);
+
+        Tmin.init(this, "Tmin", events);
+        Tmax.init(this, "Tmax", events);
+        RG.init(this, "RG", events);
+
+        ST.init(this, "ST", events);
+        LAI.init(this, "LAI", events);
+        U.init(this, "U", events);
+
+        ST.init_value(0);
+        LAI.init_value(0);
+        U.init_value(0);
+
+        Tr.init_value((1 / B()) * std::log(1 + std::exp(A() * TI())));
     }
 
-    virtual ~model00()
+    virtual ~wwdmDt()
     {
     }
 
     void compute(const vle::devs::Time& t)
     {
-        varA = varA(-1) + 1;
+        PAR = 0.5 * 0.01 * RG();
+
+        Tmean = std::max(0.0, (Tmin() + Tmax()) / 2);
+
+        ST = ST(-1) + Tmean();
+
+        LAI = std::max(0.0, Lmax() * ((1 / (1 + std::exp(-A() * (ST() - TI())))) -
+                                      std::exp(B() * (ST() - Tr()))));
+
+        U = U(-1) + Eb() * Eimax() * (1 - std::exp(-K() * LAI())) * PAR();
     }
 
-    Var varA;
+    //params
+    Var Eb;
+    Var Eimax;
+    Var K;
+    Var Lmax;
+    Var A;
+    Var B;
+    Var TI;
+    // Intermediate
+    Var PAR;
+    Var Tmean;
+    Var Tr;
+    // external
+    Var Tmin;
+    Var Tmax;
+    Var RG;
+    // internal
+    Var ST;
+    Var LAI;
+    Var U;
 };
 
 }}}
 
 
-DECLARE_DYNAMICS_DBG(vle::discrete_time::learningDT::model00)
+DECLARE_DYNAMICS_DBG(vle::discrete_time::learningDT::wwdmDt)

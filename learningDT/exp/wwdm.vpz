@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<vle_project version="0.8.0" date="mar, 05 mai 2009" author="Eric">
+ <structures>
+<model y="0" type="coupled" width="468" height="351" name="top" x="0">
+   <submodels>
+    <model y="50" dynamics="dyn_meteo" observables="obs_meteo" type="atomic" conditions="cond_meteo" width="100" height="75" name="meteo" x="42">
+     <out>
+      <port name="RG"/>
+      <port name="Tmax"/>
+      <port name="Tmin"/>
+     </out>
+    </model>
+   <model y="48" dynamics="dyn_wwdm" observables="obs_wwdm" type="atomic" conditions="cond_init_wwdm" width="50" height="50" name="wwdm" x="249">
+     <in>
+      <port name="RG"/>
+      <port name="Tmax"/>
+      <port name="Tmin"/>
+     </in>
+     <out/>
+    </model>
+   </submodels>
+   <connections>
+    <connection type="internal">
+     <origin port="RG" model="meteo"/>
+     <destination port="RG" model="wwdm"/>
+    </connection>
+    <connection type="internal">
+     <origin port="Tmax" model="meteo"/>
+     <destination port="Tmax" model="wwdm"/>
+    </connection>
+    <connection type="internal">
+     <origin port="Tmin" model="meteo"/>
+     <destination port="Tmin" model="wwdm"/>
+    </connection>
+   </connections>
+  </model>
+</structures>
+ <dynamics>
+<dynamic package="meteo" library="GenericWithoutHeader" name="dyn_meteo"/>
+<dynamic package="learningDT" library="wwdmDt" name="dyn_wwdm"/>
+</dynamics>
+ <experiment combination="linear" begin="2451547" duration="350" name="wwdmDt">
+<conditions>
+  <condition name="simulation_engine">
+    <port name="begin">
+      <double>2451547</double>
+	</port>
+	<port name="duration">
+	  <double>350</double>
+	  </port>"
+  </condition>
+  <condition name="cond_meteo">
+ <port name="PkgName">
+   <string>learningDT</string>
+ </port>
+ <port name="begin">
+   <integer>12</integer>
+ </port>
+ <port name="column_separator">
+   <string>;</string>
+ </port>
+ <port name="columns">
+   <map>
+     <key name="RG">
+       <integer>4</integer>
+     </key>
+     <key name="Tmax">
+       <integer>6</integer>
+     </key>
+     <key name="Tmin">
+       <integer>5</integer>
+     </key>
+   </map>
+ </port>
+ <port name="date_format">
+   <string>jj mm y</string>
+ </port>
+ <port name="day_column">
+   <integer>3</integer>
+ </port>
+ <port name="meteo_file">
+   <string>31035002.csv</string>
+ </port>
+ <port name="mode">
+   <string>name</string>
+ </port>
+ <port name="month_column">
+   <integer>2</integer>
+ </port>
+ <port name="time-step">
+   <double>1.000000000000000</double>
+ </port>
+ <port name="year_column">
+<integer>1</integer>
+</port>
+</condition>
+<condition name="cond_init_wwdm">
+ <port name="init_value_A">
+<double>0.006500000000000</double>
+</port>
+ <port name="init_value_B">
+<double>0.002050000000000</double>
+</port>
+ <port name="init_value_Eb">
+<double>1.850000000000000</double>
+</port>
+ <port name="init_value_Eimax">
+<double>0.940000000000000</double>
+</port>
+ <port name="init_value_K">
+<double>0.700000000000000</double>
+</port>
+ <port name="init_value_Lmax">
+<double>7.500000000000000</double>
+</port>
+ <port name="init_value_TI">
+<double>900.000000000000000</double>
+</port>
+ <port name="time-step">
+<double>1.000000000000000</double>
+</port>
+</condition>
+</conditions>
+<views>
+<outputs>
+<output format="local" plugin="file" package="vle.output" location="" name="view">
+<map>
+      <key name="flush-by-bag">
+       <boolean>0</boolean>
+      </key>
+      <key name="julian-day">
+       <boolean>0</boolean>
+      </key>
+      <key name="locale">
+       <string>C</string>
+      </key>
+      <key name="output">
+       <string>file</string>
+      </key>
+      <key name="type">
+       <string>text</string>
+      </key>
+     </map>
+    </output>
+
+<output format="local" plugin="storage" package="vle.output" location="" name="viewMem">
+        <map>
+     <key name="header">
+       <string>top</string>
+     </key>
+      <key name="columns">
+       <integer>10</integer>
+      </key>
+      <key name="inc_columns">
+       <integer>1</integer>
+      </key>
+      <key name="inc_rows">
+       <integer>1</integer>
+      </key>
+      <key name="rows">
+       <integer>1</integer>
+      </key>
+     </map>
+    </output>
+   </outputs>
+<observables>
+<observable name="obs_meteo">
+<port name="RG">
+      <attachedview name="view"/>
+     </port>
+
+<port name="Tmax">
+      <attachedview name="view"/>
+     </port>
+
+<port name="Tmin">
+      <attachedview name="view"/>
+     </port>
+
+</observable>
+
+<observable name="obs_wwdm">
+<port name="LAI">
+ <attachedview name="view"/>
+<attachedview name="viewMem"/>
+     </port>
+
+<port name="ST">
+ <attachedview name="view"/>
+<attachedview name="viewMem"/>
+     </port>
+
+<port name="U">
+ <attachedview name="view"/>
+<attachedview name="viewMem"/>
+     </port>
+
+</observable>
+
+</observables>
+<view type="timed" timestep="1.000000000000000" output="view" name="view"/>
+
+<view type="timed" timestep="1" output="viewMem" name="viewMem"/>
+  </views>
+</experiment>
+</vle_project>

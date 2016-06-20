@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE vle_project_metadata>
-<vle_project_metadata version="1.x" author="me">
+<vle_project_metadata author="me" version="1.x">
  <condPlugins/>
  <outputGUIplugins>
-  <outputGUIplugin GUIplugin="" view="ff"/>
-  <outputGUIplugin GUIplugin="" view="fileView"/>
-  <outputGUIplugin GUIplugin="" view="view"/>
-  <outputGUIplugin GUIplugin="" view="consoleViewview"/>
-  <outputGUIplugin GUIplugin="" view="consoleView"/>
+  <outputGUIplugin view="ff" GUIplugin=""/>
+  <outputGUIplugin view="fileView" GUIplugin=""/>
+  <outputGUIplugin view="view" GUIplugin=""/>
+  <outputGUIplugin view="consoleViewview" GUIplugin=""/>
+  <outputGUIplugin view="consoleView" GUIplugin=""/>
  </outputGUIplugins>
 </vle_project_metadata>
